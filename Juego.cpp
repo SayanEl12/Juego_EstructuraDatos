@@ -7,33 +7,62 @@ using namespace std;
 
 //Creacion de tablero
 class Tablero{
+    private:
+        int inicial = 3;
+		int colums = 15;
+		int filas = 13;
+		// creacion de tablero vacio
+		string tablero[13][15];
 	public:
-		int inicial = 3;
-		int max_row = 11;
-		int max_col = 13;
-		int mitad = 7;
-		char tablero[11][13];
-		Tablero(){
-			for (int i = 0; i < max_row;i++){
-				for(int j = 0; j < max_col; j++){
-					int lim_exp = ceil((inicial + i*2)/2);
-					int min_mitad = mitad - lim_exp;
-					int max_mitad = mitad + lim_exp;
-					//cout << min_mitad << endl;
-					if (j > min_mitad && j < max_mitad){
-						tablero[i][j] = '*';
-					}else{
-						tablero[i][j] = '_';
-					}
-				};
-			};
-		}
+	
+        Tablero(){
+            int i;
+            int j;
+            for (i = 0; i < filas; i ++){
+                for (j = 0; j < colums; j++){
+                    // Limite de valores a poder ingresar
+                    vector<int> limt = getLimit(colums, i, inicial);
+                    //cout<<'['<<limt[0]<<','<<limt[1]<<']';
+                    if (j > limt[0] && j < limt[1]){
+                        tablero[i][j] = " _ ";
+                    }
+                    else {tablero[i][j] = "   ";}
+                }
+            //cout<<endl;
+            }
+        }
+        
+        vector<int> getLimit(int largo, int iter, int min = 0){
+            int mitad = floor(largo/2);
+            int limInf;
+            int limSup;
+            iter = iter + 1 + floor(min/2);
+            if (iter <= mitad+1){
+                limInf = mitad - iter;
+                limSup = mitad + iter;
+                vector<int> limits = {limInf, limSup};
+                return limits;
+            }
+            else {
+                int dif = -iter + largo+1;
+                limInf = mitad - dif;
+                limSup = mitad + dif;
+                vector<int> limits = {limInf, limSup};
+                return limits;
+            }
+        }
+        
+        void añadir(int fila ,string objeto){
+            vector<int> limt = getLimit(colums, fila, inicial);
+            tablero[fila][limt[0] + 1] = objeto;
+        }
+        
 		void mostrar(){
-			for (int i = 0; i < max_row; i++){
-				for(int j = 0; j < max_col; j++){
-					cout << tablero[i][j];	
+			for (int i = 0; i < filas; i++){
+				for(int j = 0; j < colums; j++){
+					cout << tablero[i][j];
 				};
-				cout<<endl;
+				cout<< i+1<<endl;
 			};
 		}
 };
@@ -41,6 +70,7 @@ class Tablero{
 int main(){
 	
 	Tablero tablero_1 = Tablero();
+	tablero_1.añadir(8, "P1X");
 	tablero_1.mostrar();
 	return 0;
 }
