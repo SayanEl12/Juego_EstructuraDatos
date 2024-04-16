@@ -7,14 +7,13 @@ using namespace std;
 
 //Creacion de tablero
 class Tablero{
-    private:
+	private:
         int inicial = 3;
 		int colums = 15;
 		int filas = 13;
 		// creacion de tablero vacio
 		string tablero[13][15];
 	public:
-	
         Tablero(){
             int i;
             int j;
@@ -52,9 +51,8 @@ class Tablero{
             }
         }
         
-        void añadir(int fila ,string objeto){
-            vector<int> limt = getLimit(colums, fila, inicial);
-            tablero[fila][limt[0] + 1] = objeto;
+        void añadir(int fila; int objeto){
+            tablero[fila]
         }
         
 		void mostrar(){
@@ -70,7 +68,6 @@ class Tablero{
 int main(){
 	
 	Tablero tablero_1 = Tablero();
-	tablero_1.añadir(8, "P1X");
 	tablero_1.mostrar();
 	return 0;
 }
