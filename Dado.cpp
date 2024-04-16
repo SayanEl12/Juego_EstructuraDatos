@@ -26,7 +26,7 @@ class Dado{
     
     void mostrarDados(){
         for(int i = 0;i<4;i++){
-            cout<<dados[i]<<endl;
+            cout<<"r"<<i+1<<" "<<dados[i]<<endl;
         }
     }
     
@@ -43,17 +43,19 @@ class Dado{
         r4 = dados[3];
         
         string choise;
-        cout << "con cual resultado quiere emparejar el resultado 1: " << endl;
+        cout << "con cual resultado quiere emparejar r1: " << endl;
         cin >> choise;
         
         int par1, par2;
         if(choise == "r2"){
             par1 = r1 + r2;
             par2 = r3 + r4;
-        }if(choise == "r3"){
+        }
+        if(choise == "r3"){
             par1 = r1 + r3;
             par2 = r2 + r4;
-        }else{
+        }
+        if(choise == "r4"){
             par1 = r1 + r4;
             par2 = r2 + r3;
         }
@@ -71,11 +73,6 @@ class Dado{
     
 };
 
-class Ficha{
-
-    
-};
-
 int main(){
     
     Dado dado;
@@ -83,9 +80,5 @@ int main(){
     dado.lanzarDados();
     dado.mostrarDados();
     dado.retornarPares();
-    
-    
-    
-    
     
 }
