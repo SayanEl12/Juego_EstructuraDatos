@@ -9,10 +9,10 @@ using namespace std;
 class Tablero{
 	private:
         int inicial = 3;
-		int colums = 15;
-		int filas = 13;
+		int colums = 13;
+		int filas = 11;
 		// creacion de tablero vacio
-		string tablero[13][15];
+		string tablero[11][13];
 	public:
         Tablero(){
             int i;
@@ -51,8 +51,8 @@ class Tablero{
             }
         }
         
-        void añadir(int fila; int objeto){
-            tablero[fila]
+        void añadir(int fila, int objeto){
+            tablero[fila];
         }
         
 		void mostrar(){
@@ -60,7 +60,7 @@ class Tablero{
 				for(int j = 0; j < colums; j++){
 					cout << tablero[i][j];
 				};
-				cout<< i+1<<endl;
+				cout<< i+2<<endl;
 			};
 		}
 };
