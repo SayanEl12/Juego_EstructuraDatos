@@ -7,11 +7,38 @@
 //#include <dado>
 using namespace std;
 
+// Clase ficha
+class Ficha{
+    public:
+        string estadoActual;
+        
+        Ficha(){
+            estadoActual = "explorador";
+        }
+        
+        void cambiarTipo(){
+             
+            if (estadoActual == "explorador") {
+                estadoActual = "guardian";
+            }else{
+                estadoActual = "explorador";
+            }
+        }
+        
+        string mostrar(){
+            if(estadoActual == "explorador"){
+                return " X ";
+            }else{
+                return " ۩ ";
+            }
+        }
+    
+};
+
 // Clase de tablero
 class Tablero{
 	private:
         int inicial = 3;
-		int x = 13;
 		int y = 11;
 		// creacion de tablero vacio
 		vector<vector<string>> tablero;
@@ -39,16 +66,17 @@ class Tablero{
 			return rowLong;
 		}
                 
-        void add(int fila, string objeto){
+        void add(int fila, Ficha ficha){
             bool isVoid = true;
         	int place = tablero[fila-2].capacity();
         	place = place - (place + 1);
+        	
         	while (isVoid){
         	    if (tablero[fila-2][place+1] != " _ "){
         	        place ++;
         	    }else {isVoid = false;}
         	}
-        	tablero[fila-2][place+1] = objeto;
+        	tablero[fila-2][place+1] = ficha.mostrar();
         }
         
 		void mostrar(){
@@ -57,12 +85,13 @@ class Tablero{
 				size = tablero[i].size();
 				int max = tablero[y/2].size();
 				int espacios = (max-size)/2;
-				for(int esp = 0; esp < espacios; esp++) {cout << "   ";}
 				
+				for(int esp = 0; esp < espacios; esp++) {cout << "   ";}
+	
 				for(int j = 0; j < size; j++){
-				    cout << tablero[i][j];
+				        cout << tablero[i][j];
 				};
-				cout<< i+2<<endl;
+				cout<< "|"<<i+2<<endl;
 			};
 		}
 };
@@ -137,13 +166,16 @@ class Dado{
     
 };
 
+// Clase Juego
+class juego{};
 
 int main(){
 	
 	Tablero tablero_1 = Tablero();
-	tablero_1.add(9, " X ");
-	tablero_1.add(9, " X ");
-	tablero_1.add(9, " X ");
+	Ficha ficha_1, ficha_2, ficha_3;
+	tablero_1.add(9, ficha_1);
+	tablero_1.add(9, ficha_2);
+	tablero_1.add(9, ficha_3);
 	tablero_1.mostrar();
 	Dado dado;
     
