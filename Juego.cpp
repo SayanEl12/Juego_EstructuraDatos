@@ -1,63 +1,56 @@
 #include <iostream>
 #include <vector>
-#include <iostream>
 #include <cmath>
 #include <string>
+//#include <dado>
 using namespace std;
 
 //Creacion de tablero
 class Tablero{
 	private:
         int inicial = 3;
-		int colums = 13;
-		int filas = 11;
+		int x = 13;
+		int y = 11;
 		// creacion de tablero vacio
-		string tablero[11][13];
+		vector<vector<string>> tablero;
+			
 	public:
         Tablero(){
             int i;
             int j;
-            for (i = 0; i < filas; i ++){
-                for (j = 0; j < colums; j++){
-                    // Limite de valores a poder ingresar
-                    vector<int> limt = getLimit(colums, i, inicial);
-                    //cout<<'['<<limt[0]<<','<<limt[1]<<']';
-                    if (j > limt[0] && j < limt[1]){
-                        tablero[i][j] = " _ ";
-                    }
-                    else {tablero[i][j] = "   ";}
-                }
-            //cout<<endl;
-            }
+            for (i = 0; i < y; i++){
+            	int size_ = size(y, i, inicial);
+            	
+            	vector<string> row(size_, " _ ");
+            	tablero.push_back(row);
+			}
         }
         
-        vector<int> getLimit(int largo, int iter, int min = 0){
-            int mitad = floor(largo/2);
-            int limInf;
-            int limSup;
-            iter = iter + 1 + floor(min/2);
-            if (iter <= mitad+1){
-                limInf = mitad - iter;
-                limSup = mitad + iter;
-                vector<int> limits = {limInf, limSup};
-                return limits;
-            }
-            else {
-                int dif = -iter + largo+1;
-                limInf = mitad - dif;
-                limSup = mitad + dif;
-                vector<int> limits = {limInf, limSup};
-                return limits;
-            }
-        }
-        
-        void añadir(int fila, int objeto){
-            tablero[fila];
+        int size(int rows, int i, int min = 1){
+        	int mitad = floor(rows/2);
+        	int rowLong;
+        	if (i <= mitad){
+        		rowLong = i*2 + min;
+			}else{
+				rowLong = (rows - i - 1) * 2 + min;
+			}
+			return rowLong;
+		}
+                
+        void add(int fila, string objeto){
+        	int place = tablero[fila-2].capacity();
+        	place = place - (place + 1);
+        	tablero[fila-2][place+1] = objeto;
         }
         
 		void mostrar(){
-			for (int i = 0; i < filas; i++){
-				for(int j = 0; j < colums; j++){
+			int size;
+			for (int i = 0; i < y; i++){
+				size = tablero[i].size();
+				int max = tablero[y/2].size();
+				int espacios = (max-size)/2;
+				for(int esp = 0; esp < espacios; esp++) {cout << "   ";}
+				for(int j = 0; j < size; j++){
 					cout << tablero[i][j];
 				};
 				cout<< i+2<<endl;
@@ -66,6 +59,13 @@ class Tablero{
 };
 
 int main(){
+	
+	Tablero tablero_1 = Tablero();
+	tablero_1.add(9, " X ");
+	tablero_1.add(3, " X ");
+	tablero_1.mostrar();
+	return 0;
+}
 	
 	Tablero tablero_1 = Tablero();
 	tablero_1.mostrar();
