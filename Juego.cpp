@@ -38,8 +38,14 @@ class Tablero{
 		}
                 
         void add(int fila, string objeto){
+            bool isVoid = true;
         	int place = tablero[fila-2].capacity();
         	place = place - (place + 1);
+        	while (isVoid){
+        	    if (tablero[fila-2][place+1] != " _ "){
+        	        place ++;
+        	    }else {isVoid = false;}
+        	}
         	tablero[fila-2][place+1] = objeto;
         }
         
@@ -50,8 +56,9 @@ class Tablero{
 				int max = tablero[y/2].size();
 				int espacios = (max-size)/2;
 				for(int esp = 0; esp < espacios; esp++) {cout << "   ";}
+				
 				for(int j = 0; j < size; j++){
-					cout << tablero[i][j];
+				    cout << tablero[i][j];
 				};
 				cout<< i+2<<endl;
 			};
@@ -62,12 +69,8 @@ int main(){
 	
 	Tablero tablero_1 = Tablero();
 	tablero_1.add(9, " X ");
-	tablero_1.add(3, " X ");
-	tablero_1.mostrar();
-	return 0;
-}
-	
-	Tablero tablero_1 = Tablero();
+	tablero_1.add(9, " X ");
+	tablero_1.add(9, " X ");
 	tablero_1.mostrar();
 	return 0;
 }
