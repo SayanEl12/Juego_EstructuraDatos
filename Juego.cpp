@@ -4,6 +4,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <string>
+#include <set>
 using namespace std;
 
 // Clase ficha
@@ -35,7 +36,7 @@ public:
 // Clase de tablero
 class Tablero {
 private:
-    int inicial = 3;
+    int inicial = 5;
     int y = 11;
     vector<vector<string>> tablero;
     
@@ -94,6 +95,16 @@ public:
             cout << "|" << i + 2 << endl;
         }
     }
+    
+    void resetExplores(){
+    	for (int i = 0; i < tablero.size(); i++){
+    		for (string& space : tablero[i]) {
+		        if (space == " X ") {
+		            space = " _ ";
+		        }
+		    }
+		}
+	}
 };
 
 // Clase dado
@@ -119,7 +130,7 @@ public:
     
     void mostrarDados() {
         for (int i = 0; i < 4; i++) {
-            cout << "- r" << i + 1 << ": " << dados[i] << " -";
+            cout << "( r" << i + 1 << ": " << dados[i] << " )";
         }
         cout << endl;
     }
@@ -186,6 +197,7 @@ class Juego {
 private:
     vector<Jugador> players;
     Dado dado;
+    const int NUM_MAX_EXPLORES = 3;
     
 public:
     Juego() {
@@ -198,8 +210,25 @@ public:
             for (int i = 0; i < players.size(); i++) {
                 bool keepPlaying = true;
                 cout << "====== PLAYER "<< i+1<<"======"<<endl;
+                
+                // filas por turnos
+                set <int> busyRows;
                 while (keepPlaying){
                     vector<int> moves = players[i].getMove(dado);
+                    // añadir filas ocupadas
+                    for (int move : moves){
+                    	busyRows.insert(move);
+					}
+					// Revisa si hay mas filas que las que puede almacenar
+					if (busyRows.size() > NUM_MAX_EXPLORES){
+						cout << endl;
+						cout << "     ===== EXEDISTE EL NUMERO DE EXPLORADORES=====" << endl;
+						cout << endl;
+						tablero.resetExplores();
+						keepPlaying = false;
+						continue;
+					}
+                    
                     Ficha ficha;
                     tablero.add(moves[0], ficha.mostrar());
                     tablero.add(moves[1], ficha.mostrar());
