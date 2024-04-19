@@ -4,105 +4,105 @@
 #include <ctime>
 #include <cstdlib>
 #include <string>
-//#include <dado>
 using namespace std;
 
 // Clase ficha
-class Ficha{
-    public:
-        string estadoActual;
-        
-        Ficha(){
+class Ficha {
+public:
+    string estadoActual;
+    
+    Ficha() {
+        estadoActual = "explorador";
+    }
+    
+    void cambiarTipo() {
+        if (estadoActual == "explorador") {
+            estadoActual = "guardian";
+        } else {
             estadoActual = "explorador";
         }
-        
-        void cambiarTipo(){
-             
-            if (estadoActual == "explorador") {
-                estadoActual = "guardian";
-            }else{
-                estadoActual = "explorador";
-            }
-        }
-        
-        string mostrar(){
-            if(estadoActual == "explorador"){
-                return " X ";
-            }else{
-                return " ۩ ";
-            }
-        }
+    }
     
+    string mostrar() {
+        if (estadoActual == "explorador") {
+            return " X ";
+        } else {
+            return " ۩ ";
+        }
+    }
 };
 
 // Clase de tablero
-class Tablero{
-	private:
-        int inicial = 3;
-		int y = 11;
-		// creacion de tablero vacio
-		vector<vector<string>> tablero;
-			
-	public:
-        Tablero(){
-            int i;
-            int j;
-            for (i = 0; i < y; i++){
-            	int size_ = size(y, i, inicial);
-            	
-            	vector<string> row(size_, " _ ");
-            	tablero.push_back(row);
-			}
+class Tablero {
+private:
+    int inicial = 3;
+    int y = 11;
+    vector<vector<string>> tablero;
+    
+public:
+    Tablero() {
+        int i;
+        int j;
+        for (i = 0; i < y; i++) {
+            int size_ = size(y, i, inicial);
+            
+            vector<string> row(size_, " _ ");
+            tablero.push_back(row);
         }
-        
-        int size(int rows, int i, int min = 1){
-        	int mitad = floor(rows/2);
-        	int rowLong;
-        	if (i <= mitad){
-        		rowLong = i*2 + min;
-			}else{
-				rowLong = (rows - i - 1) * 2 + min;
-			}
-			return rowLong;
-		}
-                
-        void add(int fila, Ficha ficha){
-            bool isVoid = true;
-        	int place = tablero[fila-2].capacity();
-        	place = place - (place + 1);
-        	
-        	while (isVoid){
-        	    if (tablero[fila-2][place+1] != " _ "){
-        	        place ++;
-        	    }else {isVoid = false;}
-        	}
-        	tablero[fila-2][place+1] = ficha.mostrar();
+    }
+    
+    int size(int rows, int i, int min = 1) {
+        int mitad = floor(rows / 2);
+        int rowLong;
+        if (i <= mitad) {
+            rowLong = i * 2 + min;
+        } else {
+            rowLong = (rows - i - 1) * 2 + min;
         }
+        return rowLong;
+    }
+    
+    void add(int fila, const string& ficha) {
+        bool isVoid = true;
+        int place = tablero[fila - 2].capacity();
+        place = place - (place + 1);
         
-		void mostrar(){
-			int size;
-			for (int i = 0; i < y; i++){
-				size = tablero[i].size();
-				int max = tablero[y/2].size();
-				int espacios = (max-size)/2;
-				
-				for(int esp = 0; esp < espacios; esp++) {cout << "   ";}
-	
-				for(int j = 0; j < size; j++){
-				        cout << tablero[i][j];
-				};
-				cout<< "|"<<i+2<<endl;
-			};
-		}
+        while (isVoid) {
+            if (tablero[fila - 2][place + 1] != " _ ") {
+                place++;
+            } else {
+                isVoid = false;
+            }
+        }
+        tablero[fila - 2][place + 1] = ficha;
+    }
+    
+    void mostrar() {
+        int size;
+        for (int i = 0; i < y; i++) {
+            size = tablero[i].size();
+            int max = tablero[y / 2].size();
+            int espacios = (max - size) / 2;
+            
+            for (int esp = 0; esp < espacios; esp++) {
+                cout << "   ";
+            }
+            
+            for (int j = 0; j < size; j++) {
+                cout << tablero[i][j];
+            }
+            cout << "|" << i + 2 << endl;
+        }
+    }
 };
 
 // Clase dado
-class Dado{
-    public:
+class Dado {
+public:
     int dados[4];
     int lanzamientos;
     
-    Dado(): lanzamientos(0){
+    Dado() : lanzamientos(0) {
         srand(time(0));
         //roll();
     }
@@ -111,22 +111,21 @@ class Dado{
         return lanzamientos;
     }
     
-    void lanzarDados(){
-        for(int i = 0;i<4;i++){
+    void lanzarDados() {
+        for (int i = 0; i < 4; i++) {
             dados[i] = rand() % 6 + 1;
         }
     }
     
-    void mostrarDados(){
-        for(int i = 0;i<4;i++){
-            cout<<"r"<<i+1<<" "<<dados[i]<<endl;
+    void mostrarDados() {
+        for (int i = 0; i < 4; i++) {
+            cout << "r" << i + 1 << " " << dados[i] << endl;
         }
     }
     
-    vector<int> retornarPares(){
-        
-        for(int i = 0;i<i;i++){
-            cout<<dados[i]<<endl;
+    vector<int> retornarPares() {
+        for (int i = 0; i < i; i++) {
+            cout << dados[i] << endl;
         }
         
         int r1, r2, r3, r4;
@@ -140,47 +139,77 @@ class Dado{
         cin >> choise;
         
         int par1, par2;
-        if(choise == "r2"){
+        if (choise == "r2") {
             par1 = r1 + r2;
             par2 = r3 + r4;
         }
-        if(choise == "r3"){
+        if (choise == "r3") {
             par1 = r1 + r3;
             par2 = r2 + r4;
         }
-        if(choise == "r4"){
+        if (choise == "r4") {
             par1 = r1 + r4;
             par2 = r2 + r3;
         }
         
-        cout<<"par 1: "<<par1<<endl;
-        cout<<"par 2: "<<par2<<endl;
+        cout << "par 1: " << par1 << endl;
+        cout << "par 2: " << par2 << endl;
         
         vector<int> parDados;
         parDados.push_back(par1);
         parDados.push_back(par2);
         
         return parDados;
-        
     }
+};
+
+// Clase jugador
+class Jugador {
+private:
+    int id;
     
+public:
+    Jugador() : id(0) {} // Constructor predeterminado
+    Jugador(int jugadorID) : id(jugadorID) {}
+    
+    vector<int> getMove(Dado& dado) {
+        dado.lanzarDados();
+        dado.mostrarDados();
+        vector<int> parDados = dado.retornarPares();
+        return parDados;
+    }
 };
 
 // Clase Juego
-class juego{};
-
-int main(){
-	
-	Tablero tablero_1 = Tablero();
-	Ficha ficha_1, ficha_2, ficha_3;
-	tablero_1.add(9, ficha_1);
-	tablero_1.add(9, ficha_2);
-	tablero_1.add(9, ficha_3);
-	tablero_1.mostrar();
-	Dado dado;
+class Juego {
+private:
+    vector<Jugador> players;
+    Dado dado;
     
-    dado.lanzarDados();
-    dado.mostrarDados();
-    dado.retornarPares();
-	return 0;
+public:
+    Juego() {
+        players.resize(2);
+        players[0] = Jugador(1); // Crear jugador 1
+        players[1] = Jugador(2); // Crear jugador 2
+        Tablero tablero;
+        
+        while (!anyWinner()) {
+            for (int i = 0; i < players.size(); i++) {
+                vector<int> moves = players[i].getMove(dado);
+                Ficha ficha;
+                tablero.add(moves[0], ficha.mostrar());
+                tablero.add(moves[1], ficha.mostrar());
+                tablero.mostrar();
+            }
+        }
+    }
+    
+    bool anyWinner() {
+        return false;
+    }
+};
+
+int main() {
+    Juego juego;
+    return 0;
 }
