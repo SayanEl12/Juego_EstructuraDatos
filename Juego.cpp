@@ -119,8 +119,9 @@ public:
     
     void mostrarDados() {
         for (int i = 0; i < 4; i++) {
-            cout << "r" << i + 1 << " " << dados[i] << endl;
+            cout << "- r" << i + 1 << ": " << dados[i] << " -";
         }
+        cout << endl;
     }
     
     vector<int> retornarPares() {
@@ -195,11 +196,24 @@ public:
         
         while (!anyWinner()) {
             for (int i = 0; i < players.size(); i++) {
-                vector<int> moves = players[i].getMove(dado);
-                Ficha ficha;
-                tablero.add(moves[0], ficha.mostrar());
-                tablero.add(moves[1], ficha.mostrar());
-                tablero.mostrar();
+                bool keepPlaying = true;
+                cout << "====== PLAYER "<< i+1<<"======"<<endl;
+                while (keepPlaying){
+                    vector<int> moves = players[i].getMove(dado);
+                    Ficha ficha;
+                    tablero.add(moves[0], ficha.mostrar());
+                    tablero.add(moves[1], ficha.mostrar());
+                    tablero.mostrar();
+                    
+                    string answer;
+                    cout << "¿Va a pasar de turno? (si/no)" << endl;
+                    cin >> answer;
+                    if (answer == "si"){
+                        
+                        
+                        keepPlaying = false;
+                    }
+                }
             }
         }
     }
