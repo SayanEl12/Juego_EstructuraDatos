@@ -9,13 +9,8 @@ class Dado{
     int dados[4];
     int lanzamientos;
     
-    Dado(): lanzamientos(0){
-        srand(time(0));
-        //roll();
-    }
-    
-    int contLanzadas() {
-        return lanzamientos;
+    Dado(){
+        srand(time(NULL));
     }
     
     void lanzarDados(){
@@ -60,8 +55,12 @@ class Dado{
             par2 = r2 + r3;
         }
         
-        cout<<"par 1: "<<par1<<endl;
-        cout<<"par 2: "<<par2<<endl;
+        if(choise != "r2" && choise != "r3" && choise != "r4"){
+            cout<<"error las elecciones deben ser: r2 - r3 - r4"<<endl;
+        }else{
+            cout<<"par 1: "<<par1<<endl;
+            cout<<"par 2: "<<par2<<endl;
+        }
         
         vector<int> parDados;
         parDados.push_back(par1);
@@ -82,3 +81,5 @@ int main(){
     dado.retornarPares();
     
 }
+
+
