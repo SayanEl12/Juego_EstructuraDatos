@@ -105,6 +105,21 @@ public:
 		    }
 		}
 	}
+
+	int colocarGuardian(int fila, int player){
+		fila = fila -2;
+		for (auto it = tablero[fila].rbegin(); it != tablero[fila].rend(); ++it) {
+	        std::string& space = *it;
+	        if (space == " X ") {
+	            space = to_string(player) + "GD";
+	            return 0;
+	        }
+	    }
+	    return 0;
+	}
+	int ExisteGuardian(int fila, int jugador){
+		
+	}
 };
 
 // Clase dado
@@ -209,7 +224,8 @@ public:
         while (!anyWinner()) {
             for (int i = 0; i < players.size(); i++) {
                 bool keepPlaying = true;
-                cout << "====== PLAYER "<< i+1<<"======"<<endl;
+                int currentPlayer = i+1;
+                cout << "      ====== PLAYER "<< currentPlayer<<"======"<<endl;
                 
                 // filas por turnos
                 set <int> busyRows;
@@ -235,11 +251,20 @@ public:
                     tablero.mostrar();
                     
                     string answer;
-                    cout << "¿Va a pasar de turno? (si/no)" << endl;
+                    cout << "- Va a pasar de turno? (si/no)\n" << endl;
                     cin >> answer;
                     if (answer == "si"){
-                        
-                        
+                        cout << "- en que fila quieres poner tu explorador?"<<endl;
+                        set<int>::iterator it;
+
+					    for (it = busyRows.begin(); it != busyRows.end(); ++it) {
+					        cout << "Fila: "<<*it << endl;
+					    }
+					    int guardian;
+					    cin >> guardian;
+					    int _ = tablero.colocarGuardian(guardian, currentPlayer);
+						cout << endl;
+						tablero.resetExplores();
                         keepPlaying = false;
                     }
                 }
