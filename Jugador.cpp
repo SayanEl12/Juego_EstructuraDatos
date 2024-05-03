@@ -6,7 +6,7 @@ class Jugador {
 private:
   vector<int> exploradoras; // Vector para almacenar las fichas exploradoras
   vector<int> guardianes;   // Vector para almacenar las fichas guardianes
-  int id;                   // Identificador del jugador
+  int id;                   // Identificador del jugador [alguna modificacion]
 
 public:
   Jugador(int jugadorID) : id(jugadorID) {
