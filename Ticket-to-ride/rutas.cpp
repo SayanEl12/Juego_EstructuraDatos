@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 using namespace std;
+
 struct posicion {
     int x;
     int y;
@@ -10,6 +11,7 @@ struct rutaComponente {
     int id;
     string color;
     vector<posicion> posiciones;
+    vector<string> ciudades;
 };
 
 vector<rutaComponente> rutasDefinidas = {
@@ -19,6 +21,8 @@ vector<rutaComponente> rutasDefinidas = {
             {1, 5},
             {1, 6},
             {1, 7}
+        },{
+            {"A", "B"}
         }
     },
     {
@@ -27,6 +31,8 @@ vector<rutaComponente> rutasDefinidas = {
             {3, 8},
             {4, 8},
             {5, 8}
+        },{
+            {"A", "F"}
         }
     },
     {
@@ -35,6 +41,8 @@ vector<rutaComponente> rutasDefinidas = {
             {6, 1},
             {6, 2},
             {6, 3},
+        },{
+            {"D", "E"}
         }
     },
     {
@@ -42,6 +50,8 @@ vector<rutaComponente> rutasDefinidas = {
             {6, 5},
             {6, 6},
             {6, 7},
+        },{
+            {"E", "F"}
         }
     },
     {
@@ -49,6 +59,8 @@ vector<rutaComponente> rutasDefinidas = {
             {6, 9},
             {6, 10},
             {6, 11}
+        },{
+            {"F", "G"}
         }
     },
     {
@@ -57,12 +69,16 @@ vector<rutaComponente> rutasDefinidas = {
             {3, 12},
             {4, 12},
             {5, 12},
+        },{
+            {"G", "C"}
         }
     },
     {
         7, "YELLOW", {
             {7, 8},
             {8, 8},
+        },{
+            {"F", "H"}
         }
     },
     {
@@ -73,6 +89,8 @@ vector<rutaComponente> rutasDefinidas = {
             {9, 12},
             {10, 12},
             {11, 12},
+        },{
+            {"H", "L"}
         }
     },
     {
@@ -80,12 +98,16 @@ vector<rutaComponente> rutasDefinidas = {
             {12, 9},
             {12, 10},
             {12, 11},
+        },{
+            {"L", "K"}
         }
     },
     {
         10, "BLUE", {
             {10, 8},
             {11, 8},
+        },{
+            {"H", "K"}
         }
     },
     {
@@ -94,6 +116,8 @@ vector<rutaComponente> rutasDefinidas = {
             {12, 6},
             {11, 6},
             {10, 6},
+        },{
+            {"K", "I"}
         }
     },
     {
@@ -104,12 +128,16 @@ vector<rutaComponente> rutasDefinidas = {
             {13, 4},
             {14, 4},
             {15, 4},
+        },{
+            {"I", "O"}
         }
     },
     {
         13, "ORANGE", {
             {12, 2},
             {13, 2},
+        },{
+            {"J", "N"}
         }
     },
     {
@@ -117,6 +145,8 @@ vector<rutaComponente> rutasDefinidas = {
             {16, 3},
             {16, 2},
             {15, 2},
+        },{
+            {"N", "O"}
         }
     },
     {
@@ -124,6 +154,8 @@ vector<rutaComponente> rutasDefinidas = {
             {16, 5},
             {16, 6},
             {16, 7},
+        },{
+            {"O", "P"}
         }
     },
     {
@@ -131,6 +163,8 @@ vector<rutaComponente> rutasDefinidas = {
             {13, 8},
             {14, 8},
             {15, 8},
+        },{
+            {"K", "P"}
         }
     },
     {
@@ -138,6 +172,8 @@ vector<rutaComponente> rutasDefinidas = {
             {16, 9},
             {16, 10},
             {16, 11},
+        },{
+            {"P", "Q"}
         }
     },
     {
@@ -146,6 +182,8 @@ vector<rutaComponente> rutasDefinidas = {
             {15, 14},
             {16, 14},
             {16, 13}
+        },{
+            {"Q", "M"}
         }
     },
     {
@@ -154,6 +192,8 @@ vector<rutaComponente> rutasDefinidas = {
             {18, 4},
             {19, 4},
             {19, 5}
+        },{
+            {"O", "R"}
         }
     },
     {
@@ -162,6 +202,8 @@ vector<rutaComponente> rutasDefinidas = {
             {18, 12},
             {19, 12},
             {19, 11}
+        },{
+            {"Q", "S"}
         }
     },
 };
