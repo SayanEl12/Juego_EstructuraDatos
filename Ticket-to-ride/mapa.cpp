@@ -1,0 +1,159 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <Windows.h>
+#include <vector>
+#include <iomanip>
+#include "graphics.cpp"
+#include "celda.cpp"
+#include "rutas.cpp"
+
+/*
+╔  ═  ╤  ╗  ╚  ═  ╧   ╝  ╟  ╢  ║
+─  ┼  ─  │
+╔═╤═╗
+║X│O║
+╟─┼─╢
+║O│X║
+╚═╧═╝
+*/
+using namespace std;
+
+class Mapa{
+    private:
+        const int FILAS = 14;
+        const int COLUMNAS = 19;
+        const int Xinicial = 5;
+        const int Yinicial = 2;
+        Celda*** mapa = new Celda**[FILAS];
+        Graphics Graphics;
+    public:
+        Mapa(){
+            // inicizalizar las filas
+            for (int i = 0; i < FILAS; i++){
+                mapa[i] = new Celda*[COLUMNAS];
+                // inicizalizando las columnas
+                for (int j = 0; j < COLUMNAS; j++) {
+                    mapa[i][j] = new Celda(" "); // Crear una nueva instancia de Celda
+                }
+            }
+
+            // Registrando las rutas
+            for (const auto& ruta : rutasDefinidas){
+                for (const auto& pos : ruta.posiciones){
+                    mapa[pos.y - 1][pos.x - 1]->setEstado("□", ruta.color, 1);
+                }
+            }
+        }
+
+        // Imprimir un string centrado
+        string centrarPrint(int val, int size){
+            string str = to_string(val+1);
+            string centeredStr = string((size - str.length()) / 2, ' ') + str + string((size - str.length()) / 2, ' ');
+            stringstream ss;
+            ss << setw(size) << centeredStr;
+            string fixedStr = ss.str();
+            return fixedStr;
+        }
+
+        // Regresa el mapa
+        void showMapa() {
+
+            for (int i = 0; i <  FILAS; i++){
+                // Imprimir indice de la fila
+                Graphics.print_completo(centrarPrint(i, 2), Xinicial - 3, Yinicial + (i * 2) + 1);
+
+                for (int j = 0; j < COLUMNAS; j++){
+                    // Imprimir indice de la columna
+                    Graphics.print_completo(centrarPrint(j, 4), Xinicial + (j*4), Yinicial-1);
+                    
+                    // Primera fila
+                    if (i == 0){
+                        string valCelda = mapa[i][j]->getEstado()->contenido;
+                        if (j == 0) {
+                            string celda = "║ " + valCelda + " ";
+                            Graphics.print_completo("╔═══", Xinicial, Yinicial);
+                            Graphics.print_completo(celda, Xinicial, Yinicial + 1);
+                            Graphics.print_completo("╟───", Xinicial, Yinicial + 2);
+                        }
+                        else if (j < COLUMNAS - 1){
+                            string celda = "│ " + valCelda + " ";
+                            Graphics.print_completo("╤═══", Xinicial + (j*4), Yinicial);
+                            Graphics.print_completo(celda, Xinicial + (j*4), Yinicial + 1);
+                            Graphics.print_completo("┼───", Xinicial + (j*4), Yinicial + 2);
+                        }
+                        else {
+                            string celda = "│ " + valCelda + " ║";
+                            Graphics.print_completo("╤═══╗", Xinicial + (j*4), Yinicial);
+                            Graphics.print_completo(celda, Xinicial + (j*4), Yinicial + 1);
+                            Graphics.print_completo("┼───╢", Xinicial + (j*4), Yinicial + 2);
+                        }
+                    }
+
+                    // Filas intermedias
+                    else if (i < FILAS - 1){
+                        string valCelda = mapa[i][j]->getEstado()->contenido;
+                        
+                        if (j == 0) {
+                            string celda = "║ " + valCelda + " ";
+                            Graphics.print_completo("╟───", Xinicial, Yinicial + (i*2));
+                            Graphics.print_completo(celda, Xinicial, Yinicial + (i*2) + 1);
+                            Graphics.print_completo("╟───", Xinicial, Yinicial + (i*2) + 2);
+                        }
+                        else if (j < COLUMNAS - 1){
+                            string celda = "│ " + valCelda + " ";
+                            Graphics.print_completo("┼───", Xinicial + (j*4), Yinicial + (i*2));
+                            Graphics.print_completo(celda, Xinicial + (j*4), Yinicial + (i*2) + 1);
+                            Graphics.print_completo("┼───", Xinicial + (j*4), Yinicial + (i*2) + 2);
+                        }
+                        else {
+                            string celda = "│ " + valCelda + " ║";
+                            Graphics.print_completo("┼───╢", Xinicial + (j*4), Yinicial+ (i*2));
+                            Graphics.print_completo(celda, Xinicial + (j*4), Yinicial + (i*2) + 1);
+                            Graphics.print_completo("┼───╢", Xinicial + (j*4), Yinicial + (i*2) + 2);
+                        }
+                    }
+                    // Ultima Fila
+                    else {
+                        string valCelda = mapa[i][j]->getEstado()->contenido;
+                        if (j == 0) {
+                            string celda = "║ " + valCelda + " ";
+                            Graphics.print_completo("╟───", Xinicial, Yinicial + (i*2));
+                            Graphics.print_completo(celda, Xinicial, Yinicial + (i*2) + 1);
+                            Graphics.print_completo("╚═══", Xinicial, Yinicial + (i*2) + 2);
+                        }
+                        else if (j < COLUMNAS - 1){
+                            string celda = "│ " + valCelda + " ";
+                            Graphics.print_completo("┼───", Xinicial + (j*4), Yinicial + (i*2));
+                            Graphics.print_completo(celda, Xinicial + (j*4), Yinicial + (i*2) + 1);
+                            Graphics.print_completo("╧═══", Xinicial + (j*4), Yinicial + (i*2) + 2);
+                        }
+                        else {
+                            string celda = "│ " + valCelda + " ║";
+                            Graphics.print_completo("┼───╢", Xinicial + (j*4), Yinicial+ (i*2));
+                            Graphics.print_completo(celda, Xinicial + (j*4), Yinicial + (i*2) + 1);
+                            Graphics.print_completo("╧═══╝", Xinicial + (j*4), Yinicial + (i*2) + 2);
+                        }
+                    }
+                }
+            }
+        }
+
+
+};
+
+int main(){
+    // Estableciendo modo UTF-8 para imprimir caracteres especiales
+    SetConsoleOutputCP(CP_UTF8);
+    setvbuf(stdout, nullptr, _IONBF, 0);
+
+    Graphics Graphics;
+    Mapa miMapa;
+    // Imprimiendo el mapa
+    miMapa.showMapa();
+    int a;
+    cin >> a;
+
+    return 0;
+}
+
