@@ -9,16 +9,16 @@
 #include "rutas.cpp"
 #include "ciudades.cpp"
 
-/*
-╔  ═  ╤  ╗  ╚  ═  ╧   ╝  ╟  ╢  ║
+
+/*╔  ═  ╤  ╗  ╚  ═  ╧   ╝  ╟  ╢  ║
 ─  ┼  ─  │
 █ □
 ╔═╤═╗
 ║X│O║
 ╟─┼─╢
 ║O│X║
-╚═╧═╝
-*/
+╚═╧═╝*/
+
 using namespace std;
 
 class Mapa{
@@ -55,7 +55,7 @@ class Mapa{
             }
         }
 
-        // Imprimir un string centrado
+        // Regresar un string centrado
         string centrarPrint(int val, int size){
             string str = to_string(val+1);
             string centeredStr = string((size - str.length()) / 2, ' ') + str + string((size - str.length()) / 2, ' ');
@@ -65,9 +65,9 @@ class Mapa{
             return fixedStr;
         }
 
-        // Regresa el mapa
+        // Iprimir el mapa
         void showMapa() {
-
+            
             for (int i = 0; i <  FILAS; i++){
                 // Imprimir indice de la fila
                 Graphics.print_completo(centrarPrint(i, 2), Xinicial - 3, Yinicial + (i * 2) + 1);
@@ -149,7 +149,30 @@ class Mapa{
             }
         }
 
+        // Regresar un los vagones disponibles
+        vector<rutaComponente> getVagonesDisponibles(){
+            vector<rutaComponente> rutasDisponibles;
+            for (const auto& ruta : rutasDefinidas){
+                if (ruta.estado == 0){
+                    rutasDisponibles.push_back(ruta);
+                }
+            }
+            return rutasDisponibles;
+        }
 
+        // Establece una ruta como ocupada
+        void setRuta(int id, string color){
+            for (auto& ruta : rutasDefinidas){
+                if (ruta.id == id){
+                    ruta.estado = 1;
+                    ruta.color = color;
+                    for (const auto& pos : ruta.posiciones){
+                        mapa[pos.y - 1][pos.x - 1]->setEstado("█", ruta.color, 1);
+                    }
+                    break;
+                }
+            }
+        }
 };
 
 int main(){
@@ -161,7 +184,10 @@ int main(){
     Mapa miMapa;
     // Imprimiendo el mapa
     miMapa.showMapa();
-    int a;
+    char a;
+    cin >> a;
+    miMapa.setRuta(2, "YELLOW");
+    miMapa.showMapa();
     cin >> a;
 
     return 0;
