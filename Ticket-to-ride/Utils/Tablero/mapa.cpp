@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <vector>
 #include <iomanip>
-#include "graphics.cpp"
+#include "../Graficador/graphics.cpp"
 #include "celda.cpp"
 #include "rutas.cpp"
 #include "ciudades.cpp"
@@ -66,7 +66,7 @@ class Mapa{
         }
 
         // Iprimir el mapa
-        void showMapa() {
+        void show() {
             
             for (int i = 0; i <  FILAS; i++){
                 // Imprimir indice de la fila
@@ -150,7 +150,7 @@ class Mapa{
         }
 
         // Regresar un los vagones disponibles
-        vector<rutaComponente> getVagonesDisponibles(){
+        vector<rutaComponente> getRutasDisponibles(){
             vector<rutaComponente> rutasDisponibles;
             for (const auto& ruta : rutasDefinidas){
                 if (ruta.estado == 0){
@@ -174,22 +174,4 @@ class Mapa{
             }
         }
 };
-
-int main(){
-    // Estableciendo modo UTF-8 para imprimir caracteres especiales
-    SetConsoleOutputCP(CP_UTF8);
-    setvbuf(stdout, nullptr, _IONBF, 0);
-
-    Graphics Graphics;
-    Mapa miMapa;
-    // Imprimiendo el mapa
-    miMapa.showMapa();
-    char a;
-    cin >> a;
-    miMapa.setRuta(2, "YELLOW");
-    miMapa.showMapa();
-    cin >> a;
-
-    return 0;
-}
 

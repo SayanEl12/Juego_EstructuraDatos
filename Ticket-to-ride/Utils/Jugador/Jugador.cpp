@@ -14,6 +14,9 @@ struct Carta {
 class Jugador {
 public:
   Jugador(int id);
+  // TODO: hacer metodos de clase
+  int getVagones();
+  int getID();
   void robarCarta(Carta carta);
   void obtenerDosCartas(vector<Carta> &baraja);
   void descartarCarta(Color color, int cantidad, vector<Carta> &descarte);
@@ -33,6 +36,14 @@ private:
 };
 
 Jugador::Jugador(int id) : id(id), vagones(18), puntos(0) {}
+
+int Jugador::getVagones(){
+  return vagones;
+}
+
+int Jugador::getID(){
+  return id;
+}
 
 void Jugador::robarCarta(Carta carta) { mano.push_back(carta); }
 

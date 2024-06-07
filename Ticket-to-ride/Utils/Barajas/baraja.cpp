@@ -6,73 +6,71 @@
 using namespace std;
 class ZonaCarta;
 class Baraja{
-public:
-   
-    stack<char> mazo;
-    stack<char> descarte;
+    public:
+        stack<char> mazo;
+        stack<char> descarte;
+        void barajar(vector<char>& cartas){
+            srand(time(NULL)); 
+            random_shuffle(cartas.begin(), cartas.end());
+        }
 
-    void barajar(vector<char>& cartas){
-        srand(time(NULL)); 
-        random_shuffle(cartas.begin(), cartas.end());
-    }
+        Baraja() {
+            vector<char> colores = {'v', 'a', 'r', 'm', 'c', 'n'};
+            vector<char> cartas;
 
-    Baraja() {
-        vector<char> colores = {'v', 'a', 'r', 'm', 'c', 'n'};
-        vector<char> cartas;
+            for (const auto& color : colores) {
+                for (int i = 0; i < 12; ++i) {
+                    cartas.push_back(color);
+                }
+            }
 
-        for (const auto& color : colores) {
-            for (int i = 0; i < 12; ++i) {
-                cartas.push_back(color);
+            barajar(cartas);
+
+            for (const auto& carta : cartas) {
+                mazo.push(carta);
             }
         }
 
-        barajar(cartas);
-
-        for (const auto& carta : cartas) {
-            mazo.push(carta);
-        }
-    }
-
-    vector<char> robarCarta() {
-        vector<char> cartas3(3, '\0');
-        if (mazo.empty()) {
-            if (descarte.empty()) {
-                return cartas3;
-            } else {
-                trancisionDescarte_Baraja();
-                for (int i = 0; i < 3; ++i) {
-                    if (!descarte.empty()) {
-                        cartas3[i] = descarte.top();
-                        descarte.pop();
+        vector<char> robarCarta() {
+            vector<char> cartas3(3, '\0');
+            if (mazo.empty()) {
+                if (descarte.empty()) {
+                    return cartas3;
+                } else {
+                    trancisionDescarte_Baraja();
+                    for (int i = 0; i < 3; ++i) {
+                        if (!descarte.empty()) {
+                            cartas3[i] = descarte.top();
+                            descarte.pop();
+                        }
+                    }
+                    vector<char> cartas(cartas3.begin(), cartas3.end());
+                    barajar(cartas);
+                    for (const auto& carta : cartas) {
+                        mazo.push(carta);
                     }
                 }
-                vector<char> cartas(cartas3.begin(), cartas3.end());
-                barajar(cartas);
-                for (const auto& carta : cartas) {
-                    mazo.push(carta);
+            } else {
+                for (int i = 0; i < 3; ++i) {
+                    if (!mazo.empty()) {
+                        cartas3[i] = mazo.top();
+                        mazo.pop();
+                    }
                 }
             }
-        } else {
-            for (int i = 0; i < 3; ++i) {
-                if (!mazo.empty()) {
-                    cartas3[i] = mazo.top();
-                    mazo.pop();
-                }
+            return cartas3;
+        }
+
+        bool confirmarMazo() {
+            return !mazo.empty();
+        }
+
+        void trancisionDescarte_Baraja() {
+            while (!descarte.empty()) {
+                mazo.push(descarte.top());
+                descarte.pop();
             }
         }
-        return cartas3;
-    }
-
-    bool confirmarMazo() {
-        return !mazo.empty();
-    }
-
-    void trancisionDescarte_Baraja() {
-        while (!descarte.empty()) {
-            mazo.push(descarte.top());
-            descarte.pop();
-        }
-    }
 };
 
 class ZonaCarta {
@@ -116,7 +114,7 @@ public:
     }
 
     vector<char> escogerCartas(Baraja* b){
-        mostrarZona();
+        //mostrarZona();
         bool confirmacion = false;
         while (!confirmacion) {
             bool zonaLlena = true;
@@ -135,14 +133,6 @@ public:
         return zona;
     }
 };
-
-int main() {
-    Baraja baraja;
-    ZonaCarta zona(&baraja);
-    zona.mostrarZona();
-
-    return 0;
-}
 
 
 
