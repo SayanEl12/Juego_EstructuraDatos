@@ -19,7 +19,7 @@ class Jugador {
     int vagones;
     int puntos;
   public:
-    Jugador(int id, string color) : id(id), vagones(8), puntos(0), color(color){}
+    Jugador(int id, string color) : id(id), vagones(18), puntos(0), color(color){}
 
     string getColor(){
       return color;
