@@ -5,18 +5,15 @@
 #include <ctime>
 using namespace std;
 class ZonaCarta;
-class Baraja{
-    public:
-        stack<char> mazo;
-        stack<char> descarte;
-        void barajar(vector<char>& cartas){
-            srand(time(NULL)); 
-            random_shuffle(cartas.begin(), cartas.end());
-        }
 
+class Baraja{
+    private:
+        vector<string> colores = {"GREEN", "YELLOW", "RED", "MAGENTA", "BLUE", "ROSE"};
+        stack<string> mazo;
+        vector<string> descarte;
+    public:
         Baraja() {
-            vector<char> colores = {'v', 'a', 'r', 'm', 'c', 'n'};
-            vector<char> cartas;
+            vector<string> cartas;
 
             for (const auto& color : colores) {
                 for (int i = 0; i < 12; ++i) {
@@ -31,107 +28,70 @@ class Baraja{
             }
         }
 
-        vector<char> robarCarta() {
-            vector<char> cartas3(3, '\0');
-            if (mazo.empty()) {
-                if (descarte.empty()) {
-                    return cartas3;
-                } else {
-                    trancisionDescarte_Baraja();
-                    for (int i = 0; i < 3; ++i) {
-                        if (!descarte.empty()) {
-                            cartas3[i] = descarte.top();
-                            descarte.pop();
-                        }
-                    }
-                    vector<char> cartas(cartas3.begin(), cartas3.end());
-                    barajar(cartas);
-                    for (const auto& carta : cartas) {
-                        mazo.push(carta);
-                    }
-                }
-            } else {
-                for (int i = 0; i < 3; ++i) {
-                    if (!mazo.empty()) {
-                        cartas3[i] = mazo.top();
-                        mazo.pop();
-                    }
-                }
-            }
-            return cartas3;
+        void barajar(vector<string>& cartas){
+            srand(time(NULL)); 
+            random_shuffle(cartas.begin(), cartas.end());
         }
 
-        bool confirmarMazo() {
-            return !mazo.empty();
+        void addDescarte(string color, int cantidad){
+            for (int i = 0; i < cantidad; i++){
+                descarte.push_back(color);
+            }
         }
 
-        void trancisionDescarte_Baraja() {
-            while (!descarte.empty()) {
-                mazo.push(descarte.top());
-                descarte.pop();
+        string robarCarta() {
+            if (isMazoVacio()) {
+                rellenarBarajaConDescartes();
             }
+            string topCarta = mazo.top();
+            mazo.pop();
+            return topCarta;
+        }
+
+        bool isMazoVacio() {
+            return mazo.empty();
+        }
+
+        void rellenarBarajaConDescartes() {
+            barajar(descarte);
+            for (int i = 0; i < descarte.size(); i++){
+                mazo.push(descarte[i]);
+            }
+            descarte.clear();
         }
 };
 
 class ZonaCarta {
-public:
-    vector<char> zona;
-
-    ZonaCarta(Baraja* b) : zona(4, '\0') {
-        for (int i = 0; i < 4; ++i) {
-            if (!b->confirmarMazo()) {
-                b->trancisionDescarte_Baraja();
-            }
-            if (!b->mazo.empty()) {
-                zona[i] = b->mazo.top();
-                b->mazo.pop();
-            }
+    private:
+        vector<string> zona;
+        Baraja* baraja;
+    public:
+        ZonaCarta(Baraja* b) : zona(4, "") {
+            baraja = b;
+            rellenarZona();
         }
-    }
-    
-    void rellenarZona(Baraja* b) {
-        for (int i = 0; i < 4; ++i) {
-            if (zona[i] == '\0') {
-                if (!b->confirmarMazo()) {
-                    b->trancisionDescarte_Baraja();
-                }
-                if (!b->mazo.empty()) {
-                    zona[i] = b->mazo.top();
-                    b->mazo.pop();
-                }
-            }
-        }
-    }
-    
-    void mostrarZona() {
         
-        if (zona.empty()) {
-            cout << "Zona vacía" << endl;
-            cout <<"rellenando zona de cartas"<<endl;
-        } else {
-            cout << "Carta 1: " << zona[0] << " Carta 2: " << zona[1] << " Carta 3: " << zona[2] << " Carta 4: " << zona[3] << endl;
-        }
-    }
-
-    vector<char> escogerCartas(Baraja* b){
-        //mostrarZona();
-        bool confirmacion = false;
-        while (!confirmacion) {
-            bool zonaLlena = true;
-            for (const auto& carta : zona) {
-                if (carta == '\0') {
-                    zonaLlena = false;
-                    break;
+        void rellenarZona() {
+            for (int i = 0; i < 4; ++i) {
+                if (zona[i] == "") {
+                    if (baraja->isMazoVacio()) {
+                        baraja->rellenarBarajaConDescartes();
+                    }
+                    else{
+                        zona[i] = baraja->robarCarta();
+                    }
                 }
             }
-            if (zonaLlena) {
-                confirmacion = true;
-            } else {
-                rellenarZona(b);
-            }
         }
-        return zona;
-    }
+
+        vector<string> mostrarCartas(){
+            return zona;
+        }
+
+        void robarCarta(int posicion){
+            zona[posicion] = "";
+            rellenarZona();
+        }
 };
 
 
